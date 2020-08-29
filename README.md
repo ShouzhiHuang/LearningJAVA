@@ -4,4 +4,4 @@ This repository is for learning the Java programming language but not exclude th
 also will include the advanced topic such as JVM and industry frameworks integration. 
 
 ## Movie Rating System
-This web application will use springboot.
+This web application will use springboot and microservice architecture.
