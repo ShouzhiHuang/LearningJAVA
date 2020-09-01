@@ -3,6 +3,7 @@ package frank.java.moviecatalogservice.resources;
 import frank.java.moviecatalogservice.models.CatalogItem;
 import frank.java.moviecatalogservice.models.Movie;
 import frank.java.moviecatalogservice.models.Rating;
+import frank.java.moviecatalogservice.models.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,14 +30,18 @@ public class MovieCatalogResource {
 
 
 
-        List<Rating> ratings = Arrays.asList(
-                new Rating("1234", 4),
-                new Rating("5678", 3)
-        );
+        UserRating ratings = restTemplate.getForObject("http://localhost:8082/ratingsdata/users/" + userId, UserRating.class);
 
-        return ratings.stream()
+        return ratings.getUserRatings().stream()
                 .map(rating -> {
+                    // For each movie ID, call movie info service and get details
                     Movie movie = restTemplate.getForObject("http://localhost:8083/movies/" + rating.getMovieId(), Movie.class);
+
+                    return new CatalogItem(movie.getName(), "Desc", rating.getRating());
+                })
+                .collect(Collectors.toList());
+    }
+}
                     /*
                     Movie movie = webClientBuilder.build()
                             .get()
@@ -46,8 +51,3 @@ public class MovieCatalogResource {
                             .block();
 
                      */
-                    return new CatalogItem(movie.getName(), "Desc", rating.getRating());
-                })
-                .collect(Collectors.toList());
-    }
-}
