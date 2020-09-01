@@ -2,22 +2,22 @@ package frank.java.moviecatalogservice.models;
 
 public class Movie {
 
-    private String moiveId;
+    private String movieId;
     private String name;
 
     public Movie() { }
 
-    public Movie(String moiveId, String name) {
-        this.moiveId = moiveId;
+    public Movie(String movieId, String name) {
+        this.movieId = movieId;
         this.name = name;
     }
 
-    public String getMoiveId() {
-        return moiveId;
+    public String getMovieId() {
+        return movieId;
     }
 
-    public void setMoiveId(String moiveId) {
-        this.moiveId = moiveId;
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 
     public String getName() {
