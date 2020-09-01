@@ -5,6 +5,7 @@ import frank.java.moviecatalogservice.models.Movie;
 import frank.java.moviecatalogservice.models.Rating;
 import frank.java.moviecatalogservice.models.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,17 +26,20 @@ public class MovieCatalogResource {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 
 
 
-        UserRating ratings = restTemplate.getForObject("http://localhost:8082/ratingsdata/users/" + userId, UserRating.class);
+        UserRating ratings = restTemplate.getForObject("http://movie-rating-service/ratingsdata/users/" + userId, UserRating.class);
 
         return ratings.getUserRatings().stream()
                 .map(rating -> {
                     // For each movie ID, call movie info service and get details
-                    Movie movie = restTemplate.getForObject("http://localhost:8083/movies/" + rating.getMovieId(), Movie.class);
+                    Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMovieId(), Movie.class);
 
                     return new CatalogItem(movie.getName(), "Desc", rating.getRating());
                 })
