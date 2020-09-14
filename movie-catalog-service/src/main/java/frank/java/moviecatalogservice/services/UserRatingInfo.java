@@ -25,8 +25,8 @@ public class UserRatingInfo {
                     @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
                     @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000"),
                     //coreSize is for the bulk size maxQueueSize is for the waiting list besides the bulk size
-                    @HystrixProperty(name = "coreSize", value = "20"),
-                    @HystrixProperty(name = "maxQueueSize", value = "10")
+                    //@HystrixProperty(name = "coreSize", value = "20"),
+                    //@HystrixProperty(name = "maxQueueSize", value = "10")
             }
             )
     public UserRating getUserRatings(String userId) {

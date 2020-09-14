@@ -1,9 +1,7 @@
 package frank.java.moviecatalogservice.resources;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import frank.java.moviecatalogservice.config.DbSettings;
 import frank.java.moviecatalogservice.models.CatalogItem;
-import frank.java.moviecatalogservice.models.Movie;
-import frank.java.moviecatalogservice.models.Rating;
 import frank.java.moviecatalogservice.models.UserRating;
 import frank.java.moviecatalogservice.services.MovieInfo;
 import frank.java.moviecatalogservice.services.UserRatingInfo;
@@ -37,6 +35,9 @@ public class MovieCatalogResource {
     @Autowired
     private UserRatingInfo userRatingInfo;
 
+    @Autowired
+    private DbSettings dbSettings;
+
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 
@@ -57,4 +58,8 @@ public class MovieCatalogResource {
                             .block();
 
                      */
+    @RequestMapping("/dbsettings")
+    public String getDbSettings() {
+        return dbSettings.getConnection() + "\r\n" + dbSettings.getHost() + "\r\n" + dbSettings.getPort();
+    }
 }
